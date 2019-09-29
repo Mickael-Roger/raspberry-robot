@@ -13,14 +13,20 @@ in3 = 15
 in4 = 16
 enb = 18
 
-IRdevant = 40
+IRdevantdroit = 38
+IRdevantgauche = 40
+IRderrieredroit = 37
+IRderrieregauche = 36
 
 def fin():
     GPIO.cleanup()
 
 def start():
     GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(IRdevant, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(IRdevantdroit, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(IRdevantgauche, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(IRderrieredroit, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(IRderrieregauche, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(in1,GPIO.OUT)
     GPIO.setup(in3,GPIO.OUT)
     GPIO.setup(in2,GPIO.OUT)
@@ -32,7 +38,17 @@ def start():
     GPIO.output(in2,GPIO.LOW)
     GPIO.output(in4,GPIO.LOW)
 
-
+def objetdevant():
+    if GPIO.input(IRdevantdroit) == 0 or GPIO.input(IRdevantgauche) == 0:
+        return True
+    else:
+        return False
+    
+def objetdevant():
+    if GPIO.input(IRderrieredroit) == 0 or GPIO.input(IRderrieregauche) == 0:
+        return True
+    else:
+        return False    
 
 def stop():
     GPIO.output(in1,GPIO.LOW)
@@ -42,16 +58,11 @@ def stop():
 
 def avance(nb):
 
-    for i in range(0, nb * 3):
-        if GPIO.input(IRdevant) == 0:
-            stop()
-        else:
-            GPIO.output(in3,GPIO.HIGH)
-            GPIO.output(in4,GPIO.LOW)
-            GPIO.output(in1,GPIO.HIGH)
-            GPIO.output(in2,GPIO.LOW)
-
-        sleep(0.01)
+    GPIO.output(in3,GPIO.HIGH)
+    GPIO.output(in4,GPIO.LOW)
+    GPIO.output(in1,GPIO.HIGH)
+    GPIO.output(in2,GPIO.LOW)
+    sleep(0.1 * nb)
 
     stop()
 
