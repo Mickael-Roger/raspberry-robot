@@ -44,7 +44,7 @@ def objetdevant():
     else:
         return False
     
-def objetdevant():
+def objetderriere():
     if GPIO.input(IRderrieredroit) == 0 or GPIO.input(IRderrieregauche) == 0:
         return True
     else:
